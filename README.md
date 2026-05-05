@@ -1,3 +1,6 @@
+
+forked from grobian/antiword，移除严格的文件大小限制校验，解决部分非标准文件无法读取的问题。
+
 # antiword
 Antiword: a free MS Word document reader
 

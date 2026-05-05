@@ -76,29 +76,6 @@ bIsWordFileWithOLE(FILE *pFile, long lFilesize)
 		DBG_MSG("This file is too small to be a Word document");
 		return FALSE;
 	}
-
-	iTailLen = (int)(lFilesize % BIG_BLOCK_SIZE);
-	switch (iTailLen) {
-	case 0:		/* No tail, as it should be */
-		break;
-	case 1:
-	case 2:		/* Filesize mismatch or a buggy email program */
-		if ((int)(lFilesize % 3) == iTailLen) {
-			DBG_DEC(lFilesize);
-			return FALSE;
-		}
-		/*
-		 * Ignore extra bytes caused by buggy email programs.
-		 * They have bugs in their base64 encoding or decoding.
-		 * 3 bytes -> 4 ascii chars -> 3 bytes
-		 */
-		DBG_MSG("Document with extra bytes");
-		break;
-	default:	/* Wrong filesize for a Word document */
-		DBG_DEC(lFilesize);
-		DBG_DEC(iTailLen);
-		return FALSE;
-	}
 	return bCheckBytes(pFile, aucBytes, elementsof(aucBytes));
 } /* end of bIsWordFileWithOLE */
 
