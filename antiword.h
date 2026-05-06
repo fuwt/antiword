@@ -352,9 +352,11 @@ extern BOOL	bGet6DocumentData(FILE *, ULONG,
 				const ULONG *, size_t, const UCHAR *);
 /* findtext.c */
 extern BOOL	bAddTextBlocks(ULONG , ULONG, BOOL,
-				USHORT, ULONG, const ULONG *, size_t);
+				USHORT, ULONG, const ULONG *, size_t,
+				const ULONG *, size_t, ULONG);
 extern BOOL	bGet6DocumentText(FILE *, BOOL, ULONG,
-				const ULONG *, size_t, const UCHAR *);
+				const ULONG *, size_t,
+				const ULONG *, size_t, const UCHAR *, ULONG);
 extern BOOL	bGet8DocumentText(FILE *, const pps_info_type *,
 				const ULONG *, size_t, const ULONG *, size_t,
 				const UCHAR *);

@@ -484,7 +484,9 @@ bGetDocumentText(FILE *pFile, const pps_info_type *pPPS,
 					bFarEastWord,
 					pPPS->tWordDocument.ulSB,
 					aulBBD, tBBDLen,
-					aucHeader);
+					aulSBD, tSBDLen,
+					aucHeader,
+					pPPS->tWordDocument.ulSize);
 		} else {
 		  	bSuccess = bAddTextBlocks(ulBeginOfText,
 				ulTextLen +
@@ -496,7 +498,8 @@ bGetDocumentText(FILE *pFile, const pps_info_type *pPPS,
 				bFarEastWord,
 				IGNORE_PROPMOD,
 				pPPS->tWordDocument.ulSB,
-				aulBBD, tBBDLen);
+				aulBBD, tBBDLen, aulSBD, tSBDLen,
+				pPPS->tWordDocument.ulSize);
 		}
 		break;
 	case 8:
@@ -743,19 +746,28 @@ iInitDocumentOLE(FILE *pFile, long lFilesize)
 		return -1;
 	}
 
-	if (PPS_info.tWordDocument.ulSize < MIN_SIZE_FOR_BBD_USE) {
-		DBG_DEC(PPS_info.tWordDocument.ulSize);
-		FREE_ALL();
-		werr(0, "I'm afraid the text stream of this file "
-			"is too small to handle.");
-		return -1;
-	}
-	/* Read the headerblock */
-	if (!bReadBuffer(pFile, PPS_info.tWordDocument.ulSB,
-			aulBBD, tBBDLen, BIG_BLOCK_SIZE,
-			aucHeader, 0, HEADER_SIZE)) {
-		FREE_ALL();
-		return -1;
+	/* Read the headerblock - use SBAT if stream is small, BBAT otherwise */
+	{
+		const ULONG *aulBlockList;
+		size_t tBlockListLen;
+		size_t tBlockSize;
+
+		if (PPS_info.tWordDocument.ulSize < MIN_SIZE_FOR_BBD_USE) {
+			aulBlockList = aulSBD;
+			tBlockListLen = tSBDLen;
+			tBlockSize = SMALL_BLOCK_SIZE;
+		} else {
+			aulBlockList = aulBBD;
+			tBlockListLen = tBBDLen;
+			tBlockSize = BIG_BLOCK_SIZE;
+		}
+
+		if (!bReadBuffer(pFile, PPS_info.tWordDocument.ulSB,
+				aulBlockList, tBlockListLen, tBlockSize,
+				aucHeader, 0, HEADER_SIZE)) {
+			FREE_ALL();
+			return -1;
+		}
 	}
 	usIdent = usGetWord(0x00, aucHeader);
 	DBG_HEX(usIdent);
