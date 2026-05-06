@@ -635,7 +635,7 @@ iInitDocumentOLE(FILE *pFile, long lFilesize)
 
 	fail(pFile == NULL);
 
-	lMaxBlock = lFilesize / BIG_BLOCK_SIZE - 2;
+	lMaxBlock = (lFilesize + BIG_BLOCK_SIZE - 1) / BIG_BLOCK_SIZE - 2;
 	DBG_DEC(lMaxBlock);
 	if (lMaxBlock < 1) {
 		return -1;
