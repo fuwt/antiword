@@ -33,6 +33,7 @@ bGetDocumentText(FILE *pFile, long lFilesize, const UCHAR *aucHeader)
 	DBG_MSG_C(bFastSaved, "This document is Fast Saved");
 	ucVersion = ucGetByte(0x74, aucHeader);
 	DBG_DEC(ucVersion);
+	(void)ucVersion;
 	DBG_MSG_C(ucVersion == 0, "Written by Word 4.0 or earlier");
 	DBG_MSG_C(ucVersion == 3, "Word 5.0 format, but not written by Word");
 	DBG_MSG_C(ucVersion == 4, "Written by Word 5.x");
@@ -88,6 +89,7 @@ iInitDocumentDOS(FILE *pFile, long lFilesize)
 	/* Get the "magic number" from the header */
 	usIdent = usGetWord(0x00, aucHeader);
 	DBG_HEX(usIdent);
+	(void)usIdent;
 	fail(usIdent != 0xbe31);	/* Word for DOS */
 	iWordVersion = iGetVersionNumber(aucHeader);
 	if (iWordVersion != 0) {

@@ -597,6 +597,7 @@ vTableRow2Window(diagram_type *pDiag, output_type *pOutput,
 	lCharWidthSmall = lComputeStringWidth("i", 1,
 				pOutput->tFontRef, pOutput->usFontSize);
 	NO_DBG_DEC(lCharWidthSmall);
+	(void)lCharWidthSmall;
 	/* For the time being: use a fixed width font */
 	fail(lCharWidthLarge != lCharWidthSmall);
 

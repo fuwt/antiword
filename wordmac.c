@@ -89,6 +89,7 @@ iInitDocumentMAC(FILE *pFile, long lFilesize)
 	/* Get the "magic number" from the header */
 	usIdent = usGetWord(0x00, aucHeader);
 	DBG_HEX(usIdent);
+	(void)usIdent;
 	fail(usIdent != 0x37fe);	/* MacWord 4 and 5 */
 	iWordVersion = iGetVersionNumber(aucHeader);
 	if (iWordVersion != 4 && iWordVersion != 5) {

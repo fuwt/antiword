@@ -68,6 +68,8 @@ bIsWordFileWithOLE(FILE *pFile, long lFilesize)
 		{ 0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1 };
 	int	iTailLen;
 
+	(void)iTailLen;
+
 	if (pFile == NULL || lFilesize < 0) {
 		DBG_MSG("No proper file given");
 		return FALSE;

@@ -119,6 +119,7 @@ vGet2SectionInfo(const UCHAR *aucGrpprl, size_t tBytes,
 		case 119:	/* ccolM1 */
 			usCcol = 1 + usGetWord(iFodoOff + 1, aucGrpprl);
 			DBG_DEC(usCcol);
+			(void)usCcol;
 			break;
 		case 128:	/* grpfIhdt */
 			pSection->ucHdrFtrSpecification =

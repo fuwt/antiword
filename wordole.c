@@ -431,6 +431,8 @@ bGetDocumentText(FILE *pFile, const pps_info_type *pPPS,
 	uiQuickSaves = (UINT)(usDocStatus & 0x00f0) >> 4;
 	DBG_MSG_C(bFastSaved, "This document is Fast Saved");
 	DBG_DEC_C(bFastSaved, uiQuickSaves);
+	(void)bTemplate;
+	(void)uiQuickSaves;
 	bEncrypted = (usDocStatus & BIT(8)) != 0;
 	if (bEncrypted) {
 		werr(0, "Encrypted documents are not supported");
@@ -771,6 +773,7 @@ iInitDocumentOLE(FILE *pFile, long lFilesize)
 	}
 	usIdent = usGetWord(0x00, aucHeader);
 	DBG_HEX(usIdent);
+	(void)usIdent;
 	fail(usIdent != 0x8098 &&	/* Word 7 for oriental languages */
 	     usIdent != 0x8099 &&	/* Word 7 for oriental languages */
 	     usIdent != 0xa5dc &&	/* Word 6 & 7 */

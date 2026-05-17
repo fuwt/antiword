@@ -157,6 +157,7 @@ vGet0SectionInfo(const UCHAR *aucGrpprl, size_t tBytes,
 	/* ccolM1 */
 	usCcol = (USHORT)ucGetByte(17, aucGrpprl);
 	DBG_DEC(usCcol);
+	(void)usCcol;
 } /* end of vGet0SectionInfo */
 
 /*

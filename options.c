@@ -179,8 +179,7 @@ pOpenCharacterMappingFile(const char *szLeafname)
 #if !defined(__riscos)
 	FILE	*pFile;
 	const char	*szHome, *szAntiword, *szSuffix;
-	size_t	tFilenameLen;
-	char	szMappingFile[PATH_MAX+1];
+	char	szMappingFile[PATH_MAX+512];
 #endif /* !__riscos */
 
 	if (szLeafname == NULL || szLeafname[0] == '\0') {
@@ -195,61 +194,38 @@ pOpenCharacterMappingFile(const char *szLeafname)
 	/* Set the suffix */
 	szSuffix = szCreateSuffix(szLeafname);
 
-	/* Set length */
-	tFilenameLen = strlen(szLeafname) + strlen(szSuffix);
-
 	/* Try the environment version of the mapping file */
 	szAntiword = szGetAntiwordDirectory();
 	if (szAntiword != NULL && szAntiword[0] != '\0') {
-	    if (strlen(szAntiword) + tFilenameLen <
-		sizeof(szMappingFile) -
-		sizeof(FILE_SEPARATOR)) {
-			sprintf(szMappingFile,
-				"%s" FILE_SEPARATOR "%s%s",
-				szAntiword, szLeafname, szSuffix);
-			DBG_MSG(szMappingFile);
-			pFile = fopen(szMappingFile, "r");
-			if (pFile != NULL) {
-				return pFile;
-			}
-		} else {
-			werr(0, "Environment mappingfilename ignored");
+		snprintf(szMappingFile, sizeof(szMappingFile),
+			"%s" FILE_SEPARATOR "%s%s",
+			szAntiword, szLeafname, szSuffix);
+		DBG_MSG(szMappingFile);
+		pFile = fopen(szMappingFile, "r");
+		if (pFile != NULL) {
+			return pFile;
 		}
 	}
 
 	/* Try the local version of the mapping file */
 	szHome = szGetHomeDirectory();
-	if (strlen(szHome) + tFilenameLen <
-	    sizeof(szMappingFile) -
-	    sizeof(ANTIWORD_DIR) -
-	    2 * sizeof(FILE_SEPARATOR)) {
-		sprintf(szMappingFile,
-			"%s" FILE_SEPARATOR ANTIWORD_DIR FILE_SEPARATOR "%s%s",
-			szHome, szLeafname, szSuffix);
-		DBG_MSG(szMappingFile);
-		pFile = fopen(szMappingFile, "r");
-		if (pFile != NULL) {
-			return pFile;
-		}
-	} else {
-		werr(0, "Local mappingfilename too long, ignored");
+	snprintf(szMappingFile, sizeof(szMappingFile),
+		"%s" FILE_SEPARATOR ANTIWORD_DIR FILE_SEPARATOR "%s%s",
+		szHome, szLeafname, szSuffix);
+	DBG_MSG(szMappingFile);
+	pFile = fopen(szMappingFile, "r");
+	if (pFile != NULL) {
+		return pFile;
 	}
 
 	/* Try the global version of the mapping file */
-	if (tFilenameLen <
-	    sizeof(szMappingFile) -
-	    sizeof(GLOBAL_ANTIWORD_DIR) -
-	    sizeof(FILE_SEPARATOR)) {
-		sprintf(szMappingFile,
-			GLOBAL_ANTIWORD_DIR FILE_SEPARATOR "%s%s",
-			szLeafname, szSuffix);
-		DBG_MSG(szMappingFile);
-		pFile = fopen(szMappingFile, "r");
-		if (pFile != NULL) {
-			return pFile;
-		}
-	} else {
-		werr(0, "Global mappingfilename too long, ignored");
+	snprintf(szMappingFile, sizeof(szMappingFile),
+		GLOBAL_ANTIWORD_DIR FILE_SEPARATOR "%s%s",
+		szLeafname, szSuffix);
+	DBG_MSG(szMappingFile);
+	pFile = fopen(szMappingFile, "r");
+	if (pFile != NULL) {
+		return pFile;
 	}
 	werr(0, "I can't open your mapping file (%s%s)\n"
 		"It is not in '%s" FILE_SEPARATOR ANTIWORD_DIR "' nor in '"

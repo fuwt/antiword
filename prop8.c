@@ -178,6 +178,7 @@ vGet8SectionInfo(const UCHAR *aucGrpprl, size_t tBytes,
 		case 0x500b:	/* ccolM1 */
 			usCcol = 1 + usGetWord(iFodoOff + 2, aucGrpprl);
 			DBG_DEC(usCcol);
+			(void)usCcol;
 			break;
 		case 0xd202:	/* olstAnm */
 			iSize = (int)ucGetByte(iFodoOff + 2, aucGrpprl);
@@ -384,6 +385,8 @@ eGet8RowInfo(int iFodo,
 	bFound244b_1 = FALSE;
 	bFound244c_0 = FALSE;
 	bFound244c_1 = FALSE;
+	(void)bFound244c_0;
+	(void)bFound244c_1;
 	bFoundd608 = FALSE;
 	while (iBytes >= iFodoOff + 2) {
 		iInfoLen = 0;
@@ -535,6 +538,8 @@ vGet8StyleInfo(int iFodo,
 	int	iTmp, iDel, iAdd, iBefore;
 	USHORT	usOpCode, usTmp;
 	short	sTmp;
+
+	(void)usTmp;
 
 	fail(iFodo < 0 || aucGrpprl == NULL || pStyle == NULL);
 
@@ -1353,6 +1358,8 @@ bGet8PicInfo(int iFodo,
 	int	iFodoOff, iInfoLen;
 	BOOL	bFound;
 	UCHAR	ucTmp;
+
+	(void)ulTmp;
 
 	fail(iFodo <= 0 || aucGrpprl == NULL || pPicture == NULL);
 

@@ -630,6 +630,12 @@ bExamineWMF(FILE *pFile, imagedata_type *pImg)
 	DBG_DEC(usNoObjects);
 	DBG_DEC(ulMaxRecord);
 
+	(void)ulMagic;
+	(void)usVersion;
+	(void)ulFileSize;
+	(void)usNoObjects;
+	(void)ulMaxRecord;
+
 	return FALSE;
 } /* end of bExamineWMF */
 
@@ -800,6 +806,7 @@ tFind8Image(FILE *pFile, size_t tPosition, size_t tLength,
 		tRecordLength = (size_t)ulNextLong(pFile);
 		tPosition += 8;
 		NO_DBG_HEX(usRecordVersion);
+		(void)usRecordVersion;
 		NO_DBG_HEX(usRecordInstance);
 		NO_DBG_HEX(usRecordType);
 		NO_DBG_DEC(tRecordLength);

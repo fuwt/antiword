@@ -312,6 +312,8 @@ pucAnalyseSummaryInfoHeader(FILE *pFile,
 	USHORT	usLittleEndian, usEmpty, usOS, usVersion;
 	UCHAR	aucHdr[P_HEADER_SZ], aucSecLst[P_SECTION_MAX_SZ];
 
+	(void)usVersion;
+
 	if (ulSize < MIN_SIZE_FOR_BBD_USE) {
 		/* Use the Small Block Depot */
 		aulBlockDepot = aulSBD;
@@ -719,7 +721,7 @@ szGetAuthor(void)
 const char *
 szGetLastSaveDtm(void)
 {
-	static char	szTime[12];
+	static char	szTime[40];
 	struct tm	*pTime;
 
 	if (tLastSaveDtm == (time_t)-1) {
@@ -729,7 +731,7 @@ szGetLastSaveDtm(void)
 	if (pTime == NULL) {
 		return NULL;
 	}
-	sprintf(szTime, "%04d-%02d-%02d",
+	snprintf(szTime, sizeof(szTime), "%04d-%02d-%02d",
 		pTime->tm_year + 1900, pTime->tm_mon + 1, pTime->tm_mday);
 	return szTime;
 } /* end of szGetLastSaveDtm */
@@ -740,7 +742,7 @@ szGetLastSaveDtm(void)
 const char *
 szGetModDate(void)
 {
-	static char	szTime[20];
+	static char	szTime[32];
 	struct tm	*pTime;
 
 	if (tLastSaveDtm == (time_t)-1) {
@@ -750,7 +752,7 @@ szGetModDate(void)
 	if (pTime == NULL) {
 		return NULL;
 	}
-	sprintf(szTime, "D:%04d%02d%02d%02d%02d",
+	snprintf(szTime, sizeof(szTime), "D:%04d%02d%02d%02d%02d",
 		pTime->tm_year + 1900, pTime->tm_mon + 1, pTime->tm_mday,
 		pTime->tm_hour, pTime->tm_min);
 	return szTime;
@@ -762,7 +764,7 @@ szGetModDate(void)
 const char *
 szGetCreationDate(void)
 {
-	static char	szTime[20];
+	static char	szTime[32];
 	struct tm	*pTime;
 
 	if (tCreateDtm == (time_t)-1) {
@@ -772,7 +774,7 @@ szGetCreationDate(void)
 	if (pTime == NULL) {
 		return NULL;
 	}
-	sprintf(szTime, "D:%04d%02d%02d%02d%02d",
+	snprintf(szTime, sizeof(szTime), "D:%04d%02d%02d%02d%02d",
 		pTime->tm_year + 1900, pTime->tm_mon + 1, pTime->tm_mday,
 		pTime->tm_hour, pTime->tm_min);
 	return szTime;

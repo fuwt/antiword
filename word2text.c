@@ -1130,6 +1130,7 @@ bWordDecryptor(FILE *pFile, long lFilesize, diagram_type *pDiag)
 			lHalfSpaceWidth = (lComputeSpaceWidth(
 					pOutput->tFontRef,
 					pOutput->usFontSize) + 1) / 2;
+			(void)lHalfSpaceWidth;
 			lTmp = lTotalStringWidth(pAnchor);
 			lTmp += lDrawUnits2MilliPoints(pDiag->lXleft);
 			lTmp /= lDefaultTabWidth;
@@ -1281,6 +1282,7 @@ pHdrFtrDecryptor(FILE *pFile, ULONG ulCharPosStart, ULONG ulCharPosNext)
 
 	lRightIndentation = 0;
 	ucAlignment = ALIGNMENT_LEFT;
+	(void)ucAlignment;
 	bSkip = FALSE;
 	lWidthMax = lGetWidthMax(tOptions.iParagraphBreak);
 	pAnchor = pStartNewOutput(NULL, NULL);

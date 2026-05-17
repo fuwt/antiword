@@ -39,6 +39,8 @@ bGetDocumentText(FILE *pFile, const UCHAR *aucHeader)
 	uiQuickSaves = (UINT)(usDocStatus & 0x00f0) >> 4;
 	DBG_MSG_C(bFastSaved, "This document is Fast Saved");
 	DBG_DEC_C(bFastSaved, uiQuickSaves);
+	(void)bTemplate;
+	(void)uiQuickSaves;
 	if (bFastSaved) {
 		werr(0, "Word2: fast saved documents are not supported yet");
 		return FALSE;
@@ -185,6 +187,7 @@ iInitDocumentWIN(FILE *pFile, long lFilesize)
 	/* Get the "magic number" from the header */
 	usIdent = usGetWord(0x00, aucHeader);
 	DBG_HEX(usIdent);
+	(void)usIdent;
 	fail(usIdent != 0xa59b &&	/* WinWord 1.x */
 		usIdent != 0xa5db);	/* WinWord 2.0 */
 	iWordVersion = iGetVersionNumber(aucHeader);
